@@ -180,7 +180,19 @@ for curr_file=1:length(grp_proc_info_in.beapp_fname_all)
                     %interpolate channels marked bad above, reference data
                     EEG_out = pop_interp(EEG_out, full_selected_channels, 'spherical');
                 end
-                EEG_out = pop_reref(EEG_out, [], 'exclude', ind_marked_bad_chans);
+                if ~grp_proc_info_in.override_happe_av_reference ||grp_proc_info_in.reref_typ == 1
+                    EEG_out = pop_reref(EEG_out, [], 'exclude', ind_marked_bad_chans);
+                else
+                    if grp_proc_info_in.reref_typ == 4 || grp_proc_info_in.reref_typ == 2
+                        error('HAPPE V1.0 Only supports average re-reference and specific electrode re-reference, check grp_proc_info.reref_typ and rerun');
+                    end
+                    file_proc_info.net_reref_chan_inds = grp_proc_info_in.beapp_reref_chan_inds{uniq_net_ind};
+                    [~,updated_ref_inds, ~] = intersect({EEG_tmp.chanlocs.labels}, {EEG_orig.chanlocs(file_proc_info.net_reref_chan_inds).labels});
+                    if isempty(updated_ref_inds)
+                         error(['Your reference rows' EEG_orig.chanlocs(file_proc_info.net_reref_chan_inds).labels 'were not found in the channels selected for happe processing, check user inputs and retry'])
+                    end
+                    EEG_out = pop_reref (EEG_out, [updated_ref_inds], 'keepref', 'on','exclude',ind_marked_bad_chans);
+                end
             end
             
             eeg{curr_rec_period} = NaN(size(eeg{curr_rec_period}));
