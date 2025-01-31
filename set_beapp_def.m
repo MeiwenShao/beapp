@@ -195,9 +195,10 @@ grp_proc_info.event_tag_offsets = 0; % def = 0 OR 'input_table'. Event offset in
 grp_proc_info.beapp_event_use_tags_only  = 0; % def =0 (use event codes/tags/strings and condition/cel information). 1 = use event codes/tags/strings only for segmenting
 
 %% Formatting specifications: Behavioral Coding
+grp_proc_info.flag_for_bad_value_start_end = {'',''}; % def = {'',''}. Ex {'VST_','VSE_'}. First tag is when artifact started, second tag is when artifact ended.
+grp_proc_info.behavioral_coding.bad_value = {''}; % def = {''}. Ex {'badt'} A string that marks trials as bad, can be any user-defined string, ex. 'badt'
 grp_proc_info.behavioral_coding.events = {''}; % def = {''}. Ex {'TRSP'} Events containing behavioral coding information
 grp_proc_info.behavioral_coding.keys = {''}; % def = {''} Keys in events containing behavioral coding information
-grp_proc_info.behavioral_coding.bad_value = {''}; % def = {''}. Value that marks behavioral coding as bad. must be string - number values must be listed as string, ex '1'
 
 %% defaults for BEAPP filtering 
 Filt_Type = {'Lowpass','Highpass','Notch','Cleanline'}';

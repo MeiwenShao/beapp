@@ -36,30 +36,46 @@
 % You should receive a copy of the GNU General Public License along with
 % this program. If not, see <http://www.gnu.org/licenses/>.
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function [evt_info,any_behav_vals] =  beapp_exclude_trials_using_behavioral_codes (evt_info)
+function [evt_info,any_behav_vals] =  beapp_exclude_trials_using_behavioral_codes (evt_info,flag_for_bad_value_start)
 behav_value_current = 0;
 any_behav_vals = 0;
 
 for curr_epoch = 1:length(evt_info)
-    
-    % move backwards through tags
-    for curr_tag = length(evt_info{curr_epoch}): -1: 1 
-        
-        % if tag has a behavioral code, save it to apply to closest evt tag
-        % of interest
-        if ~isnan(evt_info{curr_epoch}(curr_tag).behav_code)
-            behav_value_current = evt_info{curr_epoch}(curr_tag).behav_code;
-            any_behav_vals = 1;
-        
-            % if tag is evt tag AND there isn't already a behavioral code,
-            % use the saved behavioral code for this tag
-        elseif ~strcmp(char(evt_info{curr_epoch}(curr_tag).type),'Non_Target')
-             evt_info{curr_epoch}(curr_tag).behav_code = behav_value_current;
-             
-             % if bad value, exclude this event
-             if behav_value_current
-                evt_info{curr_epoch}(curr_tag).type = 'Non_Target';
-             end
-        end     
+    if ~isempty(flag_for_bad_value_start) % if doing behavioral coding based on start and end marker 
+        % move backwards through tags
+        for curr_tag = length(evt_info{curr_epoch}): -1: 1
+
+            % if an event has a behavioral code
+            if ~isnan(evt_info{curr_epoch}(curr_tag).behav_code)
+                behav_value_current = evt_info{curr_epoch}(curr_tag).behav_code;
+                any_behav_vals = 1;
+
+                % if the event is an event of interest, we now mark it as
+                % non-target due to behavioral coding
+                if ~strcmp(char(evt_info{curr_epoch}(curr_tag).type),'Non_Target')
+                    evt_info{curr_epoch}(curr_tag).type = 'Non_Target';
+                end
+            end
+        end
+    else % if doing behavioral coding by applying the closest behavioral code after an event of interest 
+        for curr_tag = length(evt_info{curr_epoch}): -1: 1
+
+            % if tag has a behavioral code, save it to apply to closest evt tag
+            % of interest
+            if ~isnan(evt_info{curr_epoch}(curr_tag).behav_code)
+                behav_value_current = evt_info{curr_epoch}(curr_tag).behav_code;
+                any_behav_vals = 1;
+
+                % if tag is evt tag AND there isn't already a behavioral code,
+                % use the saved behavioral code for this tag
+            elseif ~strcmp(char(evt_info{curr_epoch}(curr_tag).type),'Non_Target')
+                evt_info{curr_epoch}(curr_tag).behav_code = behav_value_current;
+
+                % if bad value, exclude this event
+                if behav_value_current
+                    evt_info{curr_epoch}(curr_tag).type = 'Non_Target';
+                end
+            end
+        end
     end
 end

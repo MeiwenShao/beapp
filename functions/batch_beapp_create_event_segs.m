@@ -53,7 +53,7 @@ for curr_file = 1:length(grp_proc_info_in.beapp_fname_all)
             (file_proc_info,grp_proc_info_in.src_data_type, ...
             grp_proc_info_in.beapp_event_eprime_values,grp_proc_info_in.beapp_event_code_onset_strs,...
              grp_proc_info_in.src_format_typ,grp_proc_info_in.beapp_event_use_tags_only,...
-             grp_proc_info_in.select_nth_trial,grp_proc_info_in.segment_nth_stim_str);
+             grp_proc_info_in.select_nth_trial,grp_proc_info_in.segment_nth_stim_str,grp_proc_info_in.flag_for_bad_value_start_end{1});
          
         % skip file if it doesn't contain user-chosen event tags (unless pure baseline)
         if skip_file, continue; end
@@ -135,7 +135,7 @@ for curr_file = 1:length(grp_proc_info_in.beapp_fname_all)
                     
                     % use beapp event list, since EEGLAB list will count
                     % multiple valid tags in one segment
-                    
+                    [~,index] = sortrows([file_proc_info.evt_info{curr_epoch}.evt_times_micros_rel].'); file_proc_info.evt_info{curr_epoch} = file_proc_info.evt_info{curr_epoch}(index); clear index
                     all_tag_list = {file_proc_info.evt_info{curr_epoch}(:).type};
                     non_targ_idx = find(ismember(all_tag_list, 'Non_Target'));
                     all_tag_list(non_targ_idx) = [];
