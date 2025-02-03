@@ -97,7 +97,7 @@ for curr_file = 1:length(grp_proc_info_in.src_fname_all)
     try
         curr_file_obj = mff_getObject(com.egi.services.mff.api.MFFResourceType.kMFF_RT_MFFFile, [], full_filepath);
     catch err
-        if strcmp(err.message,'Undefined variable "com" or class "com.egi.services.mff.api.MFFResourceType.kMFF_RT_MFFFile".') || strcmp(err.message, 'Unable to resolve the name com.egi.services.mff.api.MFFResourceType.kMFF_RT_MFFFile.')
+        if strcmp(err.message,'Undefined variable "com" or class "com.egi.services.mff.api.MFFResourceType.kMFF_RT_MFFFile".') || contains(err.message, 'com.egi.services.mff.api.MFFResourceType.kMFF_RT_MFFFile')
             javaaddpath(which(grp_proc_info_in.beapp_format_mff_jar_lib));
             addpath(ref_dir);
         end
@@ -153,6 +153,12 @@ for curr_file = 1:length(grp_proc_info_in.src_fname_all)
         beapp_read_mff_events(curr_file_obj,full_filepath,record_time,time_units_exp,file_proc_info,grp_proc_info_in);
     %% Check if we need to add coding for bad trials
     if ~isempty(grp_proc_info_in.flag_for_bad_value_start_end)
+        file_proc_info.evt_info = update_behavioral_coding(file_proc_info.evt_info,grp_proc_info_in.flag_for_bad_value_start_end,grp_proc_info_in.behavioral_coding.bad_value,file_proc_info.epoch_inds_to_process);
+    end
+    %%
+    
+    %% Check if we need to add coding for bad trials
+    if ~isempty(grp_proc_info_in.flag_for_bad_value_start_end{1})
         file_proc_info.evt_info = update_behavioral_coding(file_proc_info.evt_info,grp_proc_info_in.flag_for_bad_value_start_end,grp_proc_info_in.behavioral_coding.bad_value,file_proc_info.epoch_inds_to_process);
     end
     %%

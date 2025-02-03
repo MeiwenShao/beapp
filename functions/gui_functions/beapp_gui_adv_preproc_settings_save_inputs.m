@@ -28,6 +28,11 @@ switch current_sub_panel
                 grp_proc_info.behavioral_coding.events = {''}; % def = {''}. Ex {'TRSP'} Events containing behavioral coding information
                 grp_proc_info.behavioral_coding.keys = {''}; % def = {''} Keys in events containing behavioral coding information
                 grp_proc_info.behavioral_coding.bad_value = {''}; % def = {''}. Value that marks behavioral coding as bad. must be string - number values must be listed as string, ex '1'
+                if isfield(resstruct_adv_pre_proc_settings,'bad_val_start') % if bad trials are marked with start and end markers
+                    grp_proc_info.flag_for_bad_value_start_end{1} = convertStringsToChars(resstruct_adv_pre_proc_settings.bad_val_start); %the variable name that correspond to the start
+                    grp_proc_info.flag_for_bad_value_start_end{2} = convertStringsToChars(resstruct_adv_pre_proc_settings.bad_val_end); %the variable name that correspond to the end
+                    grp_proc_info.behavioral_coding.bad_value = convertStringsToChars(resstruct_adv_pre_proc_settings.bad_val); % Value that marks behavioral coding as bad. 
+                end
             else
                 non_empty_inds = cellfun(@ (x) ~isempty(x),resstruct_adv_pre_proc_settings.behavioral_coding_table.data(:,1),'UniformOutput',1);
                 grp_proc_info.behavioral_coding.events = resstruct_adv_pre_proc_settings.behavioral_coding_table.data(non_empty_inds,1)';

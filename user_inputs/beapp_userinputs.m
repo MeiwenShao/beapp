@@ -140,10 +140,10 @@ grp_proc_info.src_eeg_vname={'EEG_Segment1','Category_1_Segment1','Category_1','
 grp_proc_info.event_tag_offsets = 0; % def = 0 OR 'input_table'. Event offset in ms. If input is not uniform across dataset, set to input_table and input information as in beapp_file_info_table in user inputs 
 
 % Formatting specifications: Behavioral Coding
-grp_proc_info.flag_for_bad_value_start_end = {''}; % def = {''}. Ex {'VST_','VSE_'} First tag is when artifact started, second tag is when artifact ended. 
+grp_proc_info.flag_for_bad_value_start_end = {'',''}; % def = {'',''}. Ex {'VST_','VSE_'} First tag is when artifact started, second tag is when artifact ended.
+grp_proc_info.behavioral_coding.bad_value = {''}; % def = {''}. A string that marks trials as bad, can be any user-defined string, ex. 'badt'
 grp_proc_info.behavioral_coding.events = {''}; % def = {''}. Ex {'TRSP'} Events containing behavioral coding information
 grp_proc_info.behavioral_coding.keys = {''}; % def = {''} Keys in events containing behavioral coding information
-grp_proc_info.behavioral_coding.bad_value = {''}; % def = {''}. Value that marks behavioral coding as bad. must be string - number values must be listed as string, ex '1'
 
 %PREP SPECIFICATIONS
 %Note that PREP removes line noise; be sure to set line noise correctly in formatting specifications
@@ -163,6 +163,7 @@ grp_proc_info.beapp_rsamp_srate = 250; %target sampling rate for resampling, if 
 % ICA SPECIFICATIONS
 grp_proc_info.beapp_ica_type  = 2; % 1 = ICA with MARA, 2 = HAPPE, 3 = only ICA 
 grp_proc_info.beapp_toggle_mods{'ica','Module_Xls_Out_On'} = 1; % flag that toggles ICA xls report option on
+grp_proc_info.override_happe_av_reference = 0; %default 0, if turned on, happe will instead use the kind of referencing set in the reference module of the user inputs
 
 %choose whether to run all 10_20 electrodes (if running HAPPE or MARA,
 %recommended to use all

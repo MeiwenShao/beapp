@@ -202,10 +202,10 @@ grp_proc_info.pseudo_randomization_order_path = ''; %if update_events set to 1, 
 grp_proc_info.paradigm = ''; %what paradigm/row we should be pulling information from 
 grp_proc_info.override_happe_av_reference = 0 %default 0, if turned on, happe will instead use the kind of referencing set in the reference module of the user inputs
 %% Formatting specifications: Behavioral Coding
-grp_proc_info.flag_for_bad_value_start_end = {''}; % def = {''}. Ex {'VST_','VSE_'}. First tag is when artifact started, second tag is when artifact ended.
+grp_proc_info.flag_for_bad_value_start_end = {'',''}; % def = {'',''}. Ex {'VST_','VSE_'}. First tag is when artifact started, second tag is when artifact ended.
+grp_proc_info.behavioral_coding.bad_value = {''}; % def = {''}. Ex {'badt'} A string that marks trials as bad, can be any user-defined string, ex. 'badt'
 grp_proc_info.behavioral_coding.events = {''}; % def = {''}. Ex {'TRSP'} Events containing behavioral coding information
 grp_proc_info.behavioral_coding.keys = {''}; % def = {''} Keys in events containing behavioral coding information
-grp_proc_info.behavioral_coding.bad_value = {''}; % def = {''}. Value that marks behavioral coding as bad. must be string - number values must be listed as string, ex '1'
 
 %% defaults for BEAPP filtering 
 Filt_Type = {'Lowpass','Highpass','Notch','Cleanline'}';
@@ -233,6 +233,7 @@ grp_proc_info.beapp_ica_run_all_10_20 = 1;
 grp_proc_info.beapp_ica_10_20_chans_lbls{1} = []; 
 grp_proc_info.beapp_ica_additional_chans_lbls{1}= []; %additional channels to use in ICA module besides 10-20
 grp_proc_info.happe_plotting_on = 0 ; % if 1, plot visualizations from MARA, require user input
+grp_proc_info.override_happe_av_reference = 0; %default 0, if turned on, happe will instead use the kind of referencing set in the reference module of the user inputs
 
 %% rereference module defaults
 grp_proc_info.reref_typ = 1; %average reference as default
