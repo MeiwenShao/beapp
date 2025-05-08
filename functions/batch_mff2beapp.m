@@ -163,6 +163,12 @@ for curr_file = 1:length(grp_proc_info_in.src_fname_all)
     end
     %%
     
+    %% Check if we need to add coding for bad trials
+    if ~isempty(grp_proc_info_in.flag_for_bad_value_start_end{1})
+        file_proc_info.evt_info = update_behavioral_coding(file_proc_info.evt_info,grp_proc_info_in.flag_for_bad_value_start_end,grp_proc_info_in.behavioral_coding.bad_value,file_proc_info.epoch_inds_to_process);
+    end
+    %%
+    
     if grp_proc_info_in.src_format_typ ==3
         seg_cond_names = unique({file_proc_info.seg_info.condition_name});
         file_proc_info.evt_conditions_being_analyzed= table();
